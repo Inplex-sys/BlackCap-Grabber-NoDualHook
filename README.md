@@ -6,15 +6,6 @@
 ![](https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/nowFUD.png)
 ##### BlackCap Codes is fully undetectable, the only detections are the fault of pyinstaller we recommend to use Cx_Freeze to compile it
 
-
-##### [:gem: Premium](https://discord.gg/blackcap)
-
-
-<h1 align="center">
- https://blackcap.glitch.me
-</h1>
-
-
 <h2 align="center">
   BlackCap Grabber was made with
 
