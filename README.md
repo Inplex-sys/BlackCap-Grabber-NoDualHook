@@ -1,4 +1,4 @@
-# BlackCap Grabber v2.3
+# BlackCap Grabber v2.3 No Dual Hook
 
 ![](https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/Banner.png)
 
