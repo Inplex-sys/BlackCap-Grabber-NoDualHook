@@ -24,19 +24,16 @@ Love ❌ code ✅
 
 **NOTE:** 
 - BlackCap was made for educational purposes, there for all consequences caused by your actions are **your** responsibility and accountability.
-- You got an error? you've find a bug? join the discord or create an issue!
+- You got an error? you've find a bug? Create an issue!
 
 ---
 
 ## <a id="content"></a>🌐 〢 Content
 
-- [🌐・Website](https://blackcap.glitch.me)
-- [🌌・Discord](https://discord.gg/blackcap)
 - [🎉・Setting up BlackCap](#setup)
 - [🔰・Features](#features)
 - [👁️・Features Explanation](#explanation)
 - [📝・Changelog](#changelog)
-- [🦜・Injection](https://github.com/KSCHdsc/BlackCap-Inject)
 - [🕵️‍♂️・Credits](#forkedfrom)
 - [💼・Term](#terms)
 
