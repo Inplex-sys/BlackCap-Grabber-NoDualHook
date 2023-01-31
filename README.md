@@ -1,5 +1,7 @@
 # BlackCap Grabber v2.3 No Dual Hook
 
+<a href="https://github.com/Inplex-sys/BlackCap-Grabber-NoDualHook/blob/main/proof.md">Proofs here</a>
+
 ![](https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/Banner.png)
 
 
