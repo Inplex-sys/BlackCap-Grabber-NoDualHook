@@ -1,0 +1,5 @@
+An investigation has uncovered that the `main.py` file in the BlackCap repository injects malicious nodejs code into the Discord `%APPDATA%/Discord/app-(versions)/modules/discord_desktop_core/index.js` module. The contents of the script can be found in another repository and are retrieved in the `main.py` file (see [link](https://github.com/KSCHdsc/BlackCap-Grabber/blob/main/main.py#L57)).
+
+The `inject.js` file, which is executed by the main thread of Electron (Discord), is responsible for stealing the Discord session token and collecting various information about the victim. The attacker receives this information, but a copy is also sent to `https://eggplant-river-bellflower.glitch.me/hello/` using a `POST` method (see [link](https://github.com/KSCHdsc/BlackCap-Inject/blob/main/index.js#L32)).
+
+A review of the code ([link](https://github.com/KSCHdsc/BlackCap-Inject/blob/main/index.js#L293)) reveals that the `post()` function sends all of the victim's information with the first argument being `'config.apiurl'`, which is a variable contained in the `config` object and holds the owner's website URL.
