@@ -54,8 +54,6 @@ Love ❌ code ✅
 
 ## <a id="features"></a>🔰 〢 Features
 
-# 💎 = Premium Features Join the discord to buy
-
 ```diff
 > Default:
 
