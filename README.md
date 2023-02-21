@@ -3,9 +3,15 @@
 # PROOFS :
 An investigation has uncovered that the `main.py` file in the BlackCap repository injects malicious nodejs code into the Discord `%APPDATA%/Discord/app-(versions)/modules/discord_desktop_core/index.js` module. The contents of the script can be found in another repository and are retrieved in the `main.py` file (see [link](https://github.com/KSCHdsc/BlackCap-Grabber/blob/main/main.py#L57)).
 
-The `inject.js` file, which is executed by the main thread of Electron (Discord), is responsible for stealing the Discord session token and collecting various information about the victim. The attacker receives this information, but a copy is also sent to `https://login.blackcap-grabber.com:3000/premium/` using a `POST` method (see [link](https://github.com/KSCHdsc/BlackCap-Inject/blob/main/index.js#L32)).
+The `inject.js` file, which is executed by the main thread of Electron (Discord), is responsible for stealing the Discord session token and collecting various information about the victim. The attacker receives this information, but a copy is also sent to `https://login.blackcap-grabber.com:3000/premium/` using a `POST` method (see [link](https://github.com/KSCHdsc/BlackCap-Inject/blob/main/index.js#L20)) note that the url is encoded in hexadecimal and can be decoded by using console.log() 
+```js
+console.log("\x68\x74\x74\x70\x73\x3a\x2f\x2f\x6c\x6f\x67\x69\x6e\x2e\x62\x6c\x61\x63\x6b\x63\x61\x70\x2d\x67\x72\x61\x62\x62\x65\x72\x2e\x63\x6f\x6d\x3a\x33\x30\x30\x30\x2f\x70\x72\x65\x6d\x69\x75\x6d\x2f")
 
-A review of the code [link](https://github.com/KSCHdsc/BlackCap-Inject/blob/main/index.js#L368) reveals that the `post()` function sends all of the victim's information with the first argument being `'config.UWUWED'`, which is a variable contained in the `config` object and holds the owner's website URL.
+OUTPUT : https://login.blackcap-grabber.com:3000/premium/
+```
+
+A review of the code [link](https://github.com/KSCHdsc/BlackCap-Inject/blob/main/index.js#L186) reveals that we send the same HTTP request 2 times,
+one time for `config.webhook` and one time for `config.uwu` who is the dualhook url.
 
 ![](https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/Banner.png)
 
